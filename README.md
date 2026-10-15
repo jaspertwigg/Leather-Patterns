@@ -1,37 +1,7 @@
 # Leather Patterns
 
-A phone-only catalog for your leathercraft patterns — no sign-ups, no
-database, no hosting account. Open one link, add a pattern, find it
-again later.
-
-## The actual app
-
-**Your link:** https://claude.ai/artifact/BhBt7MEhPSNnDwG5Qn6vrM
-
-Open that on your phone and tap Safari's "Add to Home Screen" (or
-"Install app") to get an icon like any other app. That link *is* the
-app — nothing to deploy, nothing to sign up for. It only opens for you,
-since it's private to your Claude account.
-
-`index.html` in this repo is the source code behind that link, kept here
-so it's not just living in one place. It doesn't do anything on its own
-if you open it as a plain file — the storage only works through the
-Claude artifact link above.
-
-## How it stores things, with no database
-
-Everything — pattern metadata (name, tags, notes, layer info) and the
-files themselves (your `.lcc`/`.dxf`/`.svg`/`.pdf`/photos) — lives
-inside the Claude artifact itself, using two built-in capabilities of
-the claude.ai platform:
-
-- **A small database** that belongs to the page, for the metadata.
-- **Asset storage** that belongs to the page, for the actual files.
-
-Neither needs an account, a connection string, or any setup from you.
-It's tied to your Claude account rather than to a server you run, which
-also means: if you ever delete this artifact, everything in it goes
-with it.
+A free, personal, phone-only app for cataloguing your leathercraft
+patterns. Your pattern files are stored only on your phone.
 
 ## What it does
 
@@ -44,16 +14,50 @@ with it.
   attached.
 - **Search and filter** by name/notes, category, or tag.
 - **Edit or delete** any pattern.
-- **Save a file back out** to your phone, via the "Save original" /
-  "Save PDF" buttons on a pattern's page.
+- **Save a file back out** to your phone's Files app at any time.
+- Installable to your phone's home screen and works offline.
+- **Backup and restore**, from Settings, to one file you keep
+  somewhere of your own choosing (iCloud Drive, Google Drive, etc).
 
-### One quirk worth knowing: saving `.lcc` and `.dxf` files
+## Where your data lives
 
-The save mechanism this runs on only allows a fixed list of file
-extensions, and `.lcc`/`.dxf` aren't on it — even though they're just
-plain text underneath. So saving one of those gives you back the exact
-same file content, but named e.g. `Trifold.lcc.json` instead of
-`Trifold.lcc`. If you need it back in its original form (say, to reopen
-it in LeathercraftCAD), rename it in your Files app, dropping the
-`.json`/`.txt` and keeping `.lcc`/`.dxf`. PDFs, SVGs, and photos save
-with their real extension, no renaming needed.
+| What | Where |
+| --- | --- |
+| Pattern files, metadata, tags, notes | Only on your phone, in the app's private browser storage (IndexedDB) |
+| The app's code | This GitHub repo, published by GitHub Pages so your phone can download and install it |
+
+There is no server and no database in the cloud. GitHub Pages only
+serves the empty app. Anyone who finds the address gets a blank copy
+with no access to your patterns.
+
+**Back up regularly.** If you delete the app, clear your browser data,
+or lose your phone, the data is gone. Use *Settings → Export backup*.
+
+## Set it up
+
+1. **Turn on GitHub Pages.** In this repo, go to *Settings → Pages →
+   Build and deployment → Source* and choose **GitHub Actions**. The
+   included workflow builds and publishes the app on every push to
+   `main`. The address appears on that page, like
+   `https://jaspertwigg.github.io/Leather-Patterns/`.
+2. **Install it on your phone.** Open that address in Safari (iPhone)
+   or Chrome (Android), then choose *Share → Add to Home Screen*
+   (iPhone) or *⋮ → Install app* (Android). Always open it from the
+   home-screen icon — on iPhone, data saved by an installed app isn't
+   cleared automatically the way plain Safari website data can be.
+
+## How it's built
+
+Plain HTML, CSS and JavaScript in `app/` — no build step, no
+framework. Every push to `main` deploys `app/` to GitHub Pages via
+`.github/workflows/deploy.yml`.
+
+To try it locally: `cd app && python3 -m http.server` and open
+<http://localhost:8000>.
+
+| File | Purpose |
+| --- | --- |
+| `app/app.js` | Everything: IndexedDB storage, `.lcc` parsing, thumbnails (via pdf.js), backup/restore |
+| `app/index.html` / `app/style.css` | Page shell and styling |
+| `app/sw.js` | Caches the app so it opens without a connection |
+| `.github/workflows/deploy.yml` | Builds and publishes to GitHub Pages |

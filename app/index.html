@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leather Patterns</title>
+<meta name="description" content="Catalog your leathercraft patterns: upload, tag, search.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#935a34">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1 class="wordmark"><em>Leather</em> Patterns</h1>
+    <button class="btn btn-ghost" id="btn-nav-home" hidden>Library</button>
+  </header>
+
+  <main id="app"></main>
+
+  <button class="fab" id="fab-add" title="Add pattern" aria-label="Add pattern">+</button>
+
+  <div id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
