@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }} — Leather Patterns{% endblock %}
+{% block content %}
+
+<a class="back" href="/">← Back to library</a>
+
+<div class="detail">
+  <div class="detail-preview">
+    {% if p.has_thumbnail %}
+      <img src="/patterns/{{ p.id }}/thumbnail" alt="">
+    {% else %}
+      <div class="ext-badge large">{{ p.original_ext[1:] | upper }}</div>
+    {% endif %}
+  </div>
+
+  <div class="detail-info">
+    <h1>{{ p.name }}</h1>
+    {% if p.category %}<span class="category">{{ p.category }}</span>{% endif %}
+
+    <div class="meta-list">
+      <div><strong>File</strong> {{ p.original_filename }}</div>
+      {% if p.shape_count %}<div><strong>Shapes</strong> ~{{ p.shape_count }}</div>{% endif %}
+      {% if p.canvas_w_mm and p.canvas_h_mm %}
+        <div><strong>Canvas</strong> {{ "%.0f"|format(p.canvas_w_mm) }} × {{ "%.0f"|format(p.canvas_h_mm) }} mm</div>
+      {% endif %}
+      <div><strong>Added</strong> {{ p.created_at[:10] }}</div>
+    </div>
+
+    {% if p.layer_names %}
+      <div class="layers">
+        <strong>Named layers</strong>
+        <ul>{% for l in p.layer_names %}<li>{{ l }}</li>{% endfor %}</ul>
+      </div>
+    {% endif %}
+
+    {% if p.tag_list %}
+      <div class="tags">
+        {% for t in p.tag_list %}<span class="tag">{{ t }}</span>{% endfor %}
+      </div>
+    {% endif %}
+
+    {% if p.notes %}
+      <div class="notes">{{ p.notes }}</div>
+    {% endif %}
+
+    <div class="downloads">
+      <a class="button" href="/patterns/{{ p.id }}/download/original">Download original ({{ p.original_ext }})</a>
+      {% if p.has_pdf %}
+        <a class="button" href="/patterns/{{ p.id }}/download/pdf">Download PDF</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<details class="edit-section">
+  <summary>Edit details</summary>
+  <form class="pattern-form" method="post" action="/patterns/{{ p.id }}/edit">
+    <label>Name <input type="text" name="name" value="{{ p.name }}" required></label>
+    <label>Category <input type="text" name="category" value="{{ p.category }}" list="category-options">
+      <datalist id="category-options">{% for c in categories %}<option value="{{ c }}">{% endfor %}</datalist>
+    </label>
+    <label>Tags <input type="text" name="tags" value="{{ p.tags }}" list="tag-options">
+      <datalist id="tag-options">{% for t in tags %}<option value="{{ t }}">{% endfor %}</datalist>
+    </label>
+    <label>Notes <textarea name="notes" rows="4">{{ p.notes }}</textarea></label>
+    <div class="form-actions">
+      <button type="submit">Save changes</button>
+    </div>
+  </form>
+</details>
+
+<form class="danger-zone" method="post" action="/patterns/{{ p.id }}/delete"
+      onsubmit="return confirm('Delete {{ p.name }}? This removes the file permanently.');">
+  <button type="submit" class="danger">Delete this pattern</button>
+</form>
+
+{% endblock %}
