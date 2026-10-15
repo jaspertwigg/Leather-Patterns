@@ -1,5 +1,7 @@
 # Leather Patterns
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/jaspertwigg/Leather-Patterns)
+
 A small self-hosted library for cataloguing your leathercraft patterns:
 upload a pattern file, give it a name, category and tags, and find it
 again later by searching or filtering instead of digging through a folder
@@ -39,6 +41,14 @@ public.
 
 `data/` is created automatically on first run. Back it up yourself if you
 care about the patterns in it (it's just a folder you can copy/zip).
+
+**If you deployed with the "Deploy to Render" button above on Render's
+free plan:** that plan doesn't include a persistent disk, so uploaded
+patterns can be wiped whenever the app redeploys or Render moves it to a
+new instance. Fine for trying the app out; if you want it to reliably
+keep your patterns long-term, add a small persistent disk (Render's
+paid tiers support this for a few dollars a month) or run it yourself
+somewhere with real storage.
 
 There's no login or access control — anyone who can reach the app's URL
 can see and delete everything in it. Run it on `localhost`, on your own
