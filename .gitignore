@@ -2,11 +2,5 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Your pattern library lives here: the SQLite database and every uploaded
-# file. This repo is public but your patterns aren't, so none of it is
-# tracked -- see the README's "Where your data lives" section.
-/data/*
-!/data/.gitkeep
-
 .venv/
 *.egg-info/
